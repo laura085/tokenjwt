@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html ng-app="producto_app">
+
+
+<head>
+<meta charset="UTF-8">
+<title>Registro de Producto</title>
+
+<!-- <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+<script type="text/javascript" src="/mavespringhibernate/static/js/angular/angular.js"></script>
+<link href="/mavespringhibernate/static/css/materialize/iconos/index.css" rel="stylesheet">
+<link type="text/css" rel="stylesheet" href="/mavespringhibernate/static/css/materialize/css/materialize.css" media="screen,projection"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+
+
+
+
+
+</head>
+
+
+
+
+
+<body ng-controller="productoController">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="row">
+
+<div class="col s3"></div>
+
+    <form class="col s6">
+      <div class="row">
+        <div class="input-field col s6">
+          <i class="material-icons prefix">add_shopping_cart</i>
+          <input id="descripcion" type="text" class="validate" ng-model="producto.descripcion">
+          <label for="descripcion">Descripción</label>
+        </div>
+        <div class="input-field col s6">
+          <i class="material-icons prefix">attach_money</i>
+          <input id="precio" type="number" class="validate" ng-model="producto.precio">
+          <label for="precio">Precio</label>
+        </div>
+        
+        
+        <div class="input-field col s6">
+          <i class="material-icons prefix">attach_money</i>
+          <input id="cantidad" type="number" class="validate" ng-model="producto.cantidad">
+          <label for="cantidad">Cantidad</label>
+        </div>
+        
+        
+        
+ <button class="btn waves-effect" type="submit" ng-click="registrarProducto(producto)">Submit
+    <i class="material-icons right">send</i>
+  </button>
+        
+        
+        
+
+        
+        
+        
+        
+        
+      </div>
+      
+      
+      
+      
+      
+      
+    </form>
+    {{producto}}
+  </div>
+
+
+
+
+
+
+
+
+
+<!--Import jQuery before materialize.js-->
+<script type="text/javascript" src="/mavespringhibernate/static/js/jquery.js"></script>
+<script type="text/javascript" src="/mavespringhibernate/static/css/materialize/js/materialize.min.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+	
+});
+
+</script>
+
+
+<script type="text/javascript"> 
+
+
+// creamos el modulo producto_app
+angular.module("producto_app",[]);
+
+//utilizamos el modulo			indicando el controller de la aplicacion
+angular.module("producto_app").controller("productoController",function( $scope,$http){ 
+ 	$scope.app="Registro de Productos"; 
+ 
+	var cargarProductos=function(){
+		
+										//proyecto	la url en el controller
+		$http.get("http://localhost:8080/mavespringhibernate/productos").success(
+		function(data,status){
+			$scope.productos=data.productos;
+		
+		}		
+		
+		);
+		
+		
+	};
+	
+	$scope.registrarProducto=(function(producto){
+		
+		//verbo post				//proyecto  controller	objeto que recibe
+		$http.post("http://localhost:8080/mavespringhibernate/productos",producto).success(function(){
+		
+// 			alert($scope.producto)
+			console.log($scope.producto)
+			 delete $scope.producto;
+			//$scope.productoForm.$setPristine();
+			cargarProductos();
+			
+			
+		});
+		
+	});
+
+}); 
+ 
+</script> 
+
+
+
+</body>
+</html>
